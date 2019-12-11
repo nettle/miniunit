@@ -21,20 +21,20 @@
 // }
 //
 // // Custom test case
-// class TEST3 : public TestSuite::TestCase {
+// class MyTestCase : public TestSuite::TestCase {
 // public:
-//   TEST3(const char* n, const char* d)
-//     : TestSuite::TestCase(n, d) {
-//     // Add actions to constructor
+//   MyTestCase(const char* name, const char* description)
+//     : TestSuite::TestCase(name, description) {
+//     // Setup action in constructor
 //   }
-//   ~TEST3() {
-//     // Add actions to destructor
+//   ~MyTestCase() {
+//     // Tear down actions in destructor
 //   }
 //   bool test() {
 //     // Test body
 //     return true;
 //   };
-// } TEST3_instance("TEST3", "Description for custom test case");
+// } MyTestCase_instance("TEST3", "Description for custom test case");
 //
 // int main(void) {
 //   bool result = TestSuite::run();
