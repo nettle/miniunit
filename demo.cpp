@@ -1,31 +1,32 @@
-#include "miniunit.h"
-#include <cstdio>
+#include "miniunit.h"  // TEST, SKIP, TestSuite, TestCase
+#include <cstdio>      // printf
 
 using namespace miniunit;
 
-// Test PASS example:
+// Test PASS example
 TEST(TEST1, "Test description") {
   return true;
 }
 
-// Test FAIL example:
+// Test FAIL example
 TEST(TEST2, "This test should fail") {
   return false;
 }
 
 // Custom test case
-class TEST3 : public TestSuite::TestCase {
+class MyTestCase : public TestSuite::TestCase {
 public:
-  TEST3(const char* n, const char* d)
+  MyTestCase(const char* n, const char* d)
     : TestSuite::TestCase(n, d) {
   }
-  ~TEST3() {
+  ~MyTestCase() {
   }
   bool test() {
     return true;
   };
-} TEST3_instance("TEST3", "Custom test case");
+} MyTestCase_instance("TEST3", "Custom test case");
 
+// Exception example
 TEST(TEST4, "Throw exception") {
   throw "Oh my god!";
   return true;
@@ -36,15 +37,15 @@ class MyTestSuite : public TestSuite {
 public:
   static bool run() {
     bool allResults = true;
-    printf("| %-10s | %-30s | %-6s | %-20s |\n",
+    printf("| %-8s | %-30s | %-6s | %-20s |\n",
            "Test", "Description", "Result", "Comment");
-    printf("| %-10s | %-30s | %-6s | %-20s |\n",
-           std::string(10, '=').c_str(),
+    printf("| %-8s | %-30s | %-6s | %-20s |\n",
+           std::string(8, '=').c_str(),
            std::string(30, '=').c_str(),
            std::string(6, '=').c_str(),
            std::string(20, '=').c_str());
     for (auto t : getTests()) {
-      printf("| %-10s | %-30s |", t->name.c_str(), t->description.c_str());
+      printf("| %-8s | %-30s |", t->name.c_str(), t->description.c_str());
       const char* resultStr = "OK";
       const char* reasonStr = "";
       if (!t->skip) {
@@ -58,6 +59,7 @@ public:
         allResults = allResults && result;
       } else {
         resultStr = "Skip";
+        reasonStr = t->reason.c_str();
       }
       printf(" %-6s | %-20s |\n", resultStr, reasonStr);
     }
